@@ -1,0 +1,77 @@
+<div class="auth-container d-flex flex-column justify-content-center align-items-center">
+    <mat-card class="auth-card mat-elevation-z5 d-flex flex-column">
+        <mat-card-title class="d-flex flex-column justify-content-center align-items-center">
+            <img src="./assets/images/logo-transparent.png" alt="GD Prod" class="mt-4 mb-2">
+        </mat-card-title>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <mat-card-content class="d-flex flex-column">
+
+                <mat-form-field appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="lastName">
+                    <mat-icon color="primary" matPrefix class="mr-5">person</mat-icon>
+                    <mat-error *ngIf="registerForm.get('firstName').hasError('required')">First name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="firstName">
+                    <mat-icon color="primary" matPrefix class="mr-5">person</mat-icon>
+                    <mat-error *ngIf="registerForm.get('lastName').hasError('required')">Last name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon color="primary" matPrefix class="mr-5">mail_outline</mat-icon>
+                    <mat-error *ngIf="registerForm.get('email').hasError('required')">Email is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Roles</mat-label>
+                    <mat-icon color="primary" matPrefix class="mr-5">accessibility</mat-icon>
+                    <mat-select formControlName="roles" multiple>
+                      <mat-option *ngFor="let role of roles" [value]="role">{{role | titlecase}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" [type]="showPasswordText ? 'text' : 'password'" required>
+                    <mat-icon color="primary" matPrefix class="mr-5">lock_open</mat-icon>
+                    <button type="button" mat-icon-button matSuffix (click)="showPasswordText = !showPasswordText">
+                        <mat-icon>{{showPasswordText ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="registerForm.get('password').hasError('required')">Password is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Retype Password</mat-label>
+                    <input matInput formControlName="passwordRepeat" [type]="showRPasswordText ? 'text' : 'password'"
+                        required>
+                    <mat-icon color="primary" matPrefix class="mr-5">lock_open</mat-icon>
+                    <button type="button" mat-icon-button matSuffix (click)="showRPasswordText = !showRPasswordText">
+                        <mat-icon>{{showRPasswordText ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="registerForm.get('passwordRepeat').hasError('required')">Password is required
+                    </mat-error>
+                </mat-form-field>
+
+                <button type="submit" class="auth-btn" mat-flat-button color="primary"
+                    [disabled]="!registerForm.valid || registerForm.value.password !== registerForm.value.passwordRepeat">Register</button>
+
+
+            </mat-card-content>
+        </form>
+
+    </mat-card>
+    <div class="auth-options d-flex flex-row justify-content-end align-items-center">
+        <a href="" class="text-dark" routerLink="/auth/login">Login</a>
+    </div>
+
+</div>

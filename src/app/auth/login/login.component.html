@@ -1,0 +1,32 @@
+<div class="auth-container d-flex flex-column justify-content-center align-items-center">
+        <mat-card class="auth-card mat-elevation-z5 d-flex flex-column">
+            <mat-card-title class="d-flex flex-column justify-content-center align-items-center">
+                <img src="./assets/images/logo-transparent.png" alt="GD Prod" class="mt-4 mb-2">
+            </mat-card-title>
+    
+            <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="on">
+                <mat-card-content class="d-flex flex-column">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" color="warn">
+                        <mat-icon color="primary" matPrefix class="mr-5">mail_outline</mat-icon>
+                        <mat-error *ngIf="loginForm.get('email').hasError('required')">Email is required</mat-error>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" [type]="showPasswordText ? 'text' : 'password'" required>
+                        <mat-icon color="primary" matPrefix class="mr-5">lock_open</mat-icon>
+                        <button type="button" mat-icon-button matSuffix (click)="showPasswordText = !showPasswordText">
+                            <mat-icon>{{showPasswordText ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="loginForm.get('password').hasError('required')">Password is required
+                        </mat-error>
+                    </mat-form-field>
+    
+                    <button type="submit" class="auth-btn" mat-flat-button color="primary"
+                        [disabled]="!loginForm.valid">Login</button>
+                </mat-card-content>
+            </form>
+        </mat-card>
+    </div>

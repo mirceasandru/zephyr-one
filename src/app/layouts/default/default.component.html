@@ -1,0 +1,79 @@
+<div class="admin-container d-flex flex-column" [class.example-is-mobile]="mobileQuery.matches">
+
+    <!-- default toolbar -->
+    <mat-toolbar
+        class="navbar mat-elevation-z3 d-flex flex-row justify-content-center justify-content-sm-between align-items-center">
+        <div class="logo d-flex flex-row justify-content-md-center justify-content-between align-items-center">
+            <img src="./assets/images/logo-gdprod.png" alt="GD Prod Logo">
+
+            <button mat-icon-button (click)="snav.toggle()" class="mx-2">
+                <mat-icon color="accent">menu</mat-icon>
+            </button>
+        </div>
+
+        <div
+            class="actions d-flex flex-sm-row flex-column justify-content-sm-between justify-content-center align-items-center gap-2">
+            <ng-content select="[selectAccounts]"></ng-content>
+
+            <!-- select module button -->
+            <div>
+                <button color="default" mat-button *ngIf="appService.selectedModule" #modalButton
+                    (click)="OpenSelectModulesDialog()">
+                    <mat-icon color="accent" class="mr-5">apps</mat-icon>
+                    <span class="text-dark">{{appService.selectedModule.title | titlecase}}</span>
+                </button>
+
+                <button color="default" mat-button *ngIf="user" [matMenuTriggerFor]="menu">
+                    <mat-icon color="accent" class="mr-5">person</mat-icon>
+                    <span class="text-dark">{{user.firstName}}</span>
+                </button>
+            </div>
+        </div>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>power_settings_new</mat-icon>
+                <span>Sign out</span>
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="d-flex flex-row flex-fill">
+
+        <!-- default sidebar -->
+        <mat-sidenav class="sidenav text-white" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+            [fixedInViewport]="mobileQuery.matches" fixedTopGap="60" [opened]="!mobileQuery.matches">
+
+            <mat-nav-list class="nav-list d-flex flex-column">
+                <a mat-flat-button color="dark"
+                    class="nav-button d-flex flex-row justify-content-start align-items-center"
+                    *ngFor="let module of subModules" matLine routerLinkActive="active" [routerLink]="[module.path]"
+                    queryParamsHandling="merge" (click)="mobileQuery.matches && snav.toggle()">
+                    <mat-icon class="nav-icon text-white">{{module.icon}}</mat-icon>
+                    <div class="nav-text">{{ module.title }}</div>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <!-- default content -->
+        <mat-sidenav-content class="d-flex flex-column flex-fill">
+
+            <mat-toolbar class="head" color="accent" class="d-flex flex-md-row justify-content-between">
+                <div class="d-flex flex-row align-items-center gap-3">
+                    <h3 class="page-title" *ngIf="currentRoute">{{currentRoute}}</h3>
+                    <!-- <span class="d-flex"></span> -->
+                    <ng-content select="[tiktokParams]"></ng-content>
+                </div>
+               <div class="d-flex flex-row justify-content-start gap-3">
+                <ng-content select="[timezone]"></ng-content>
+                <ng-content select="[tiktokLog]"></ng-content>
+               </div>
+            </mat-toolbar>
+
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+</div>
